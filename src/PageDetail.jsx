@@ -5,12 +5,14 @@ import { DotSpinner } from '@uiball/loaders';
 const PageDetail = () => {
  const {id} = useParams();
  const [inidata,setdata] = useState({})
+ const [showFullContent, setShowFullContent] = useState(false);
  const getdata = async()=>{
     try {
-      const response = await axios.get("https://newsapi.org/v2/top-headlines?country=us&apiKey=fa82250edaad4a78977a82e841b0185b")
+      const response = await axios.get("https://api.slingacademy.com/v1/sample-data/blog-posts?offset=5&limit=50");
       let result = response.data;
-    result = result.articles;
-          const data = result[id];
+      result = result.blogs;
+      const data = result[id];
+      console.log(data)
       setdata(data)
     } catch (error) {
        alert(error);
@@ -20,6 +22,9 @@ const PageDetail = () => {
     
         getdata()
     },[])
+    const toggleContent = () => {
+      setShowFullContent(!showFullContent);
+  };
   return (
     <>
     {(inidata === undefined || inidata === null)?(<>
@@ -49,22 +54,37 @@ const PageDetail = () => {
     <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-16">
       </main>
       <section className="px-12 py-14">
-        <div className="container mx-auto flex px-5 md:flex-row flex-col items-center">
+        <div className="container mx-auto flex px-5 md:flex-row flex-col items-center sm:items-start">
           <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 mb-10 md:mb-0">
             <img
-              className="object-cover object-center rounded"
+              className="object-cover  rounded"
               alt="hero"
-              src={inidata.urlToImage}
+              src={inidata.photo_url}
             />
           </div>
           <div className='w-full flex flex-col '>
-          <div className="lg:flex-grow mb-5 font-semibold lg:pl-24 text-white md:pl-16 text-xl  flex flex-col md:items-start md:text-left items-center text-center">
-                {inidata.title}
-          </div>
-          <div className="lg:flex-grow lg:pl-24 md:pl-16 text-lg flex text-white flex-col md:items-start md:text-left items-center text-center">
-                {inidata.description}
-          </div>
-          <a href={inidata.url} target='_main' className='cursor-pointer flex md:ml-16 font-semibold text-lg text-green-300 lg:ml-24'>Read More...</a>
+            <div className='lg:flex-grow mb-5 font-semibold lg:pl-24 text-white md:pl-16 underline text-3xl flex flex-col md:items-start md:text-left items-center text-center'>
+                   {inidata.title}
+            </div>
+          <div className="lg:flex-grow mb-5 font-semibold lg:pl-24 text-white md:pl-16 text-xl flex flex-col md:items-start md:text-left items-center text-center">
+                                   {(inidata.content_text === undefined)?(<>
+                                    <div className="flex justify-evenly mx-auto">
+        <DotSpinner size={100} speed={0.9} color="white" className="flex items-center   mx-auto" />
+        </div>  
+                                   </>):(<>
+                                        {showFullContent ? inidata.content_text : `${inidata.content_text.substring(0, 100)}...`}
+                                        
+                                        {!showFullContent && (
+                                            <button className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0 mt-2" onClick={toggleContent}>
+                                                Read More
+                                                <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                                                    <path d="M5 12h14"></path>
+                                                    <path d="M12 5l7 7-7 7"></path>
+                                                </svg>
+                                            </button>
+                                        )}
+                                        </>)}
+                                    </div>
           </div>
         </div>
       </section>

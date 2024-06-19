@@ -17,18 +17,17 @@ const Home = () => {
 
     const getdata = async () => {
         try {
-            const response = await axios.get("https://newsapi.org/v2/top-headlines?country=us&apiKey=fa82250edaad4a78977a82e841b0185b");
+            const response = await axios.get("https://api.slingacademy.com/v1/sample-data/blog-posts?offset=5&limit=50");
             let result = response.data;
-            result = result.articles;
+            result = result.blogs;
             result.map((info, index) => {
                 final((data) => [
                     ...data, {
-                        photo_url: info.urlToImage,
-                        title: info.title,
-                        category: info.source.name,
-                        content_text: info.content_text,
-                        detailUrl: info.url,
-                        id: index,
+						photo_url : info.photo_url,
+						title : info.title,
+						category : info.category,
+						content_text : info.content_text,
+						id :index,
                     }
                 ]);
             });
