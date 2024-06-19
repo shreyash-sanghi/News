@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import {useParams,Link} from "react-router-dom";
+import axios  from 'axios';
 import { DotSpinner } from '@uiball/loaders';
 const PageDetail = () => {
  const {id} = useParams();
  const [inidata,setdata] = useState({})
  const getdata = async()=>{
     try {
-        const response = await fetch("https://newsapi.org/v2/top-headlines?country=us&apiKey=fa82250edaad4a78977a82e841b0185b");
-     let result = await response.json();
-      result = result.articles;
-      const data = result[id];
+      const response = await axios.get("https://newsapi.org/v2/top-headlines?country=us&apiKey=fa82250edaad4a78977a82e841b0185b")
+      let result = response.data;
+    result = result.articles;
+          const data = result[id];
       setdata(data)
     } catch (error) {
        alert(error);

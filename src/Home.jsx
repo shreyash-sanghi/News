@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { DotSpinner } from '@uiball/loaders';
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Home = ()=>{
 	const navigate = useNavigate();
    const [iniName,finName] =  useState("");
@@ -15,9 +16,8 @@ const Home = ()=>{
 
 const getdata = async()=>{
 try {
-	const response = await fetch("https://newsapi.org/v2/top-headlines?country=us&apiKey=fa82250edaad4a78977a82e841b0185b");
- let result = await response.json();
- console.log(result)
+	const response = await axios.get("https://newsapi.org/v2/top-headlines?country=us&apiKey=fa82250edaad4a78977a82e841b0185b")
+    let result = response.data;
   result = result.articles;
   result.map((info,index)=>{
     final((data)=>[
@@ -32,7 +32,7 @@ try {
     ])
   })
 } catch (error) {
-
+alert(error)
 	console.error(error);
 }
 }
