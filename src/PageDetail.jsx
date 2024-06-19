@@ -8,7 +8,7 @@ const PageDetail = () => {
  const [showFullContent, setShowFullContent] = useState(false);
  const getdata = async()=>{
     try {
-      const response = await axios.get("https://api.slingacademy.com/v1/sample-data/blog-posts?offset=5&limit=50");
+      const response = await axios.get("https://api.slingacademy.com/v1/sample-data/blog-posts?offset=5&limit=30");
       let result = response.data;
       result = result.blogs;
       const data = result[id];

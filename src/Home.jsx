@@ -17,7 +17,7 @@ const Home = () => {
 
     const getdata = async () => {
         try {
-            const response = await axios.get("https://api.slingacademy.com/v1/sample-data/blog-posts?offset=5&limit=50");
+            const response = await axios.get("https://api.slingacademy.com/v1/sample-data/blog-posts?offset=5&limit=30");
             let result = response.data;
             result = result.blogs;
             result.map((info, index) => {
@@ -51,13 +51,10 @@ const Home = () => {
                         </a>
                         <select onChange={(e) => finName(e.target.value)} className="bg-transparent border-2 rounded-lg text-white">
                             <option value="all" className="bg-black">All</option>
-                            {initial.map((info, index) => {
-                                if (!info.id) return null;
-
-                                return (
-                                    <option value={info.category} key={index} className="bg-black">{info.category}</option>
-                                );
-                            })}
+                            <option value="math" className="bg-black">Math</option>
+                            <option value="gaming" className="bg-black">Gaming</option>
+                            <option value="love" className="bg-black">Love</option>
+                            <option value="programming" className="bg-black">Programming</option>
                         </select>
                     </div>
                     <ul className="mt-5 sm:mt-0 sm:absolute space-x-2 items-center sm:top-1/2 sm:left-1/2 transform sm:-translate-y-1/2 sm:-translate-x-1/2 flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-6">
@@ -114,13 +111,13 @@ const Home = () => {
                                                             <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">{info.category}</h2>
                                                             <h1 className="title-font text-lg font-medium text-gray-900 mb-3">{info.title}</h1>
                                                             <p className="leading-relaxed overflow-hidden max-h-20 md:max-h-12 mb-3">{info.content_text}</p>
-                                                            <div className="flex items-center flex-wrap">
-                                                                <a href={info.detailUrl} target="_main" className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0">Read More
+															<div className="flex items-center flex-wrap">
+                                                                <button onClick={() => navigate(`/more/${info.id}`)} className="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0">Read More
                                                                     <svg className="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
                                                                         <path d="M5 12h14"></path>
                                                                         <path d="M12 5l7 7-7 7"></path>
                                                                     </svg>
-                                                                </a>
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
